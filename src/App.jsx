@@ -10,7 +10,7 @@ import { Route, Routes } from "react-router-dom"
 import io from 'socket.io-client'
 import { useEffect, useState } from 'react'
 
-const socket = io.connect("http://localhost:8081")
+const socket = io.connect("http://34.16.151.166:8081")
 
 function App() {
 

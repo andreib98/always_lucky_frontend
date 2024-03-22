@@ -14,7 +14,7 @@ export const Register = (props) => {
         e.preventDefault();
         console.log(email);
 
-        const recipeUrl = 'http://localhost:8081/add_user';
+        const recipeUrl = 'http://34.16.151.166:8081/add_user';
         const postBody = {
             email: email,
             name: name,
