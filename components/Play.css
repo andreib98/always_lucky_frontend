@@ -1,0 +1,227 @@
+*, *::after, *::before{
+    box-sizing: border-box;
+}
+
+.play--table{
+    background-color: var(--mainColorLight);
+    background-image: url(../images/poker-table.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100% 100%;
+    height: 88vh;
+    margin: 0;
+    display: grid;
+    grid-template-rows: 30vh 0vh 7vh 18vh 18vh 0vh ;
+    gap: 0vh;
+    justify-content: center;
+    align-items: center;
+    padding-top: 0%;
+    padding-left: 0%;
+    
+}
+
+.card-slot{
+    height: 15vh;
+    width: 12vw;
+    margin-left: 6.5vw;
+    background-color: white;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.5rem;
+}
+
+.text-pot {
+    grid-column: span 2;
+    height: 5vh;
+    width: 5vw;
+    margin-left: 40%;
+    font-size: 2vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.community-cards {
+    grid-column: span 2;
+    height: 15vh;
+    width: 25vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.5rem;
+}
+
+.card {
+    height: 100%;
+    width: 50%;
+    border: 1px solid black;
+    background-color: white;
+    font-size: 5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card.red {
+    color: red;
+}
+
+.card.black {
+    color:black;
+}
+
+.card::before, .card::after{
+    position: relative;
+    content: attr(data-value);
+    font-size: 3vh;
+}
+
+.card::before{
+    bottom: 5.5vh;
+    right: 0vw;
+}
+
+.card::after{
+    top: 5.5vh;
+    left: 0vw;
+}
+
+.start-game-button{
+    position: absolute;
+    left: 20vw;
+    top: 55vh;
+}
+
+.join-room-text{
+    position: absolute;
+    left: 2vw;
+    top: 10vh;
+    width: 7vw;
+    height: 4vh;
+}
+
+.join-room-button{
+    position: absolute;
+    left: 10vw;
+    top: 10.9vh;
+}
+
+.leave-room-button{
+    position: absolute;
+    left: 10vw;
+    top: 10.9vh;
+}
+
+.room-number{
+    position: absolute;
+    left: 5vw;
+    top: 20vh;
+    color: white;
+    font-size: 3vh;
+}
+
+.chips{
+    grid-column: span 2;
+    margin-left: 7vw;
+    font-size: 2vh;
+}
+
+.player1-chips {
+    margin-top: -5vh;
+}
+
+.p1-name{
+    position: absolute;
+    color: white;
+    font-size: 10vw;
+}
+
+.p2-name{
+    position: absolute;
+    color: white;
+    font-size: 10vw;
+}
+
+.fold {
+    height: 8vh;
+    width: 8vw;
+    color: white;
+    border: 1px solid white;
+    background-color: #a11010;
+    border-radius: 0.2rem;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 82vh;
+    right: 18vw;
+    font-size: 1vw;
+}
+
+.call {
+    height: 8vh;
+    width: 8vw;
+    color: white;
+    border: 1px solid white;
+    background-color: #a11010;
+    border-radius: 0.2rem;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 82vh;
+    right: 10vw;
+    font-size: 1vw;
+}
+
+.bet {
+    height: 8vh;
+    width: 8vw;
+    color: white;
+    border: 1px solid white;
+    background-color: #a11010;
+    border-radius: 0.2rem;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 82vh;
+    right: 2vw;
+    font-size: 1vw;
+}
+
+.box{
+    background: #a11010;
+    border-radius: 1vh;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    height: 6vh;
+    width: 16vw;
+    top: 75vh;
+    right: 2vw;
+}
+
+.box .slider{
+    position: absolute;
+    display: flex;
+    right: 1vw;
+}
+
+.box .slider input{ 
+    height: 4vh;
+    width: 10vw;
+}
+
+.box .range__amount{
+
+    font-size: 1.5vh;
+    height: 6vh;
+    width: 4vw;
+}
+
+.message{
+    color: yellow;
+}

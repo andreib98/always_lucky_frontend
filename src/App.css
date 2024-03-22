@@ -1,0 +1,190 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Inter, sans-serif;
+}
+
+:root{
+  --mainColor: #21222A;
+  --mainColorLight: #282D35;
+  --secondaryColor: #ffee00;
+  --textColor: white;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, sans-serif;
+  height: 100hv;
+  background-color: var(--mainColorLight);
+}
+
+header {
+  background-color: var(--mainColor);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 10vh;
+  padding: 0 2rem;
+  color: var(--textColor);
+}
+
+.logOut{
+  background-color: var(--mainColor);
+  margin: 0 2rem;
+  color: var(--textColor);
+  text-decoration: none;
+  font-size: 2vh;
+}
+
+.logOut:hover{
+  color: var(--secondaryColor);
+}
+
+nav a{
+  margin: 0 2rem;
+  color: var(--textColor);
+  text-decoration: none;
+  font-size: 2vh;
+}
+
+nav a:hover{
+  color: var(--secondaryColor);
+  
+}
+
+header .nav-btn{
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--textColor);
+  visibility: hidden;
+  opacity: 0;
+  font-size: 1.8rem;
+}
+
+@media only screen and (max-width: 1024px){
+
+  header .nav-btn{
+    visibility: visible;
+    opacity: 1;
+  }
+
+  header nav{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    background-color: var(--mainColor);
+    transition: 1s;
+    transform: translateY(-100vh);
+  }
+
+  header .responsive_nav{
+    transform: none;
+  }
+
+  nav .nav-close-btn{
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+  }
+
+  nav a{
+    font-size: 1.5rem;
+  }
+
+}
+
+main{
+  
+  color: white;
+  height: 88vh;
+}
+
+.main--title{
+  text-align: center;
+  margin: 0;
+  font-size: 5vh;
+  letter-spacing: -0.05em;
+  padding: 5vh;
+}
+
+.random--text{
+  text-align: center;
+  margin: 0;
+  font-size: 2vh;
+  letter-spacing: -0.05em;
+  padding: 5vh;
+}
+
+.random--text--2{
+  text-align: center;
+  color: rgb(78, 214, 146);
+  margin: 0;
+  font-size: 2vh;
+  letter-spacing: -0.05em;
+  padding: 2vh;
+}
+
+footer{
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height: 2vh;
+  width: 100%;
+  background-color: black;
+  color: white;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 1vh;
+  padding: 0.5vh;
+}
+
+.form-container, .login-form, .register-form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5vh;
+}
+
+label{
+  font-size: 2vh;
+  text-align: left;
+  padding: 0.25rem 0;
+}
+
+input{
+  font-size: 1.5vh;
+  margin: 0.5rem 0;
+  padding: 1rem;
+  border: none;
+  border-radius: 10px;
+}
+
+button{
+  font-size: 1.5vh;
+  border: none;
+  background-color: white;
+  padding: 1vh;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.link-btn{
+  font-size: 1.5vh;
+  background: none;
+  color: white;
+  text-decoration: underline;
+}
