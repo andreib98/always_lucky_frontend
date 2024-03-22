@@ -16,7 +16,7 @@ export const Login = (props) => {
 
         e.preventDefault();
         
-        const recipeUrl = 'http://localhost:3001/verify_password';
+        const recipeUrl = 'http://localhost:8081/verify_password';
         const postBody = {
             email: email,
             password: pass
@@ -45,7 +45,7 @@ export const Login = (props) => {
     }
 
     useEffect( () => {
-        const recipeUrl = 'http://localhost:3001/verify_password';
+        const recipeUrl = 'http://localhost:8001/verify_password';
         const requestData = {
             method: 'GET',
             credentials: "include",

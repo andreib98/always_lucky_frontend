@@ -14,7 +14,7 @@ export default function Navbar() {
     const [loginStatus, setLoginStatus] = useState(false);
 
     useEffect( () => {
-        const recipeUrl = 'http://localhost:3001/verify_password';
+        const recipeUrl = 'http://localhost:8081/verify_password';
         const requestData = {
             method: 'GET',
             credentials: "include",
@@ -34,7 +34,7 @@ export default function Navbar() {
         e.preventDefault();
         
 
-        const recipeUrl = 'http://localhost:3001/logout';
+        const recipeUrl = 'http://localhost:8081/logout';
        
         const requestMetadata = {
             method: 'GET',

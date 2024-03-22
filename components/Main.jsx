@@ -8,7 +8,7 @@ export default function Main() {
     const [loginStatus, setLoginStatus] = useState(false);
 
     useEffect( () => {
-        const recipeUrl = 'http://localhost:3001/verify_password';
+        const recipeUrl = 'http://localhost:8081/verify_password';
         const requestData = {
             method: 'GET',
             credentials: "include",
