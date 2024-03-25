@@ -2,6 +2,8 @@ import React, { useState } from "react";
 
 
 
+
+
 export const Register = (props) => {
 
     const [email, setEmail] = useState('');
@@ -14,7 +16,7 @@ export const Register = (props) => {
         e.preventDefault();
         console.log(email);
 
-        const recipeUrl = 'http://34.16.151.166:8081/add_user';
+        const recipeUrl = import.meta.env.VITE_BACKENDIP+'/add_user';
         const postBody = {
             email: email,
             name: name,

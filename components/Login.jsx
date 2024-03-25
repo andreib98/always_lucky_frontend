@@ -2,6 +2,10 @@ import React, { useEffect, useReducer, useState } from "react";
 import Cookies from "js-cookie";
 import AuthApi from "./AuthApi";
 
+
+
+
+
 export const Login = (props) => {
 
 
@@ -16,7 +20,7 @@ export const Login = (props) => {
 
         e.preventDefault();
         
-        const recipeUrl = 'http://34.16.151.166:8081/verify_password';
+        const recipeUrl = import.meta.env.VITE_BACKENDIP+'/verify_password';
         const postBody = {
             email: email,
             password: pass
@@ -45,7 +49,7 @@ export const Login = (props) => {
     }
 
     useEffect( () => {
-        const recipeUrl = 'http://34.16.151.166:8081/verify_password';
+        const recipeUrl = import.meta.env.VITE_BACKENDIP+'/verify_password';
         const requestData = {
             method: 'GET',
             credentials: "include",

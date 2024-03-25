@@ -2,13 +2,15 @@ import React, { useEffect,useState } from "react"
 import { Login } from "./Login"
 import { Register } from "./Register"
 
+
+
 export default function Main() {
 
     const [currentForm, setCurrentForm] = useState('login');
     const [loginStatus, setLoginStatus] = useState(false);
 
     useEffect( () => {
-        const recipeUrl = 'http://34.16.151.166:8081/verify_password';
+        const recipeUrl = import.meta.env.VITE_BACKENDIP+'/verify_password';
         const requestData = {
             method: 'GET',
             credentials: "include",

@@ -6,7 +6,11 @@ import './Play.css'
 import { useActionData } from "react-router-dom"
 import Countdown from "react-countdown"
 
-const socket = io.connect("http://34.125.126.2:8081")
+
+
+
+
+const socket = io.connect(import.meta.env.VITE_BACKENDIP)
 
 class Card{
     constructor(suit,value){
@@ -63,7 +67,7 @@ export default function Play(){
     
     useEffect( () => {
         if ( loggedIn != true){
-            const recipeUrl = 'http://34.125.126.2:8081/verify_password';
+            const recipeUrl = import.meta.env.VITE_BACKENDIP+'/verify_password';
             const requestData = {
                 method: 'GET',
                 credentials: "include",
