@@ -6,7 +6,7 @@ import './Play.css'
 import { useActionData } from "react-router-dom"
 import Countdown from "react-countdown"
 
-const socket = io.connect("http://34.16.151.166:8081")
+const socket = io.connect("http://34.125.126.2:8081")
 
 class Card{
     constructor(suit,value){
@@ -63,7 +63,7 @@ export default function Play(){
     
     useEffect( () => {
         if ( loggedIn != true){
-            const recipeUrl = 'http://34.16.151.166:8081/verify_password';
+            const recipeUrl = 'http://34.125.126.2:8081/verify_password';
             const requestData = {
                 method: 'GET',
                 credentials: "include",
@@ -129,13 +129,19 @@ export default function Play(){
     }
 
     socket.on('startTheGame' , (C1, C2, cine) => {
-        
+
+        setComCards([]);
+        setCards([]);
+        setOppCards([]);
+        setMessageP1("");
+        setMessageP2("");
         setCards([{key: 1, value: C1.value, suit: C1.suit},{key: 2, value: C2.value, suit: C2.suit}]);
+        setBetAmount(3);
         
         if ( game.P1Id == cine )
-            setGame( c=> ({...c, currentPlayer: cine, P1Chips: game.P1Chips-1, P2Chips: game.P2Chips-2, P1Bet: 1, P2Bet: 2, Pot: 0, gameStatus: "preflop"}));
+            setGame( c=> ({...c, currentPlayer: cine, P1Chips: game.P1Chips-1, P2Chips: game.P2Chips-2, P1Bet: 1, P2Bet: 2, Pot: 3, gameStatus: "preflop"}));
         if ( game.P2Id == cine )
-            setGame( c=> ({...c, currentPlayer: cine, P1Chips: game.P1Chips-2, P2Chips: game.P2Chips-1, P1Bet: 2, P2Bet: 1, Pot: 0, gameStatus: "preflop"}));
+            setGame( c=> ({...c, currentPlayer: cine, P1Chips: game.P1Chips-2, P2Chips: game.P2Chips-1, P1Bet: 2, P2Bet: 1, Pot: 3, gameStatus: "preflop"}));
 
     });
 
@@ -169,15 +175,15 @@ export default function Play(){
 
     });
 
+    socket.on('round_folded', ( p1chips, p2chips ) =>{
+
+        setGame( c=> ({...c, gameStatus:"-", currentPlayer: 0, P1Chips: p1chips, P2Chips: p2chips}));
+
+    });
+
     socket.on('round_over', ( p1chips, p2chips ) =>{
 
-        var asdas=0;
-        for ( let i=1 ; i<=100000000 ; i++ )
-            asdas++;
-        setGame( c=> ({...c, gameStatus: "-",currentPlayer: 0, P1Chips: p1chips, P2Chips: p2chips, P1Bet: 0, P2Bet: 0, Pot: 0}));
-        setComCards([]);
-        setCards([]);
-        setOppCards([]);
+        setGame( c=> ({...c, currentPlayer: 0, P1Chips: p1chips, P2Chips: p2chips}));
 
     });
     
@@ -203,11 +209,10 @@ export default function Play(){
 
         if ( verificat2 == 0 ){
             verificat2 = 1;
-            if ( player.id == id && game.P1Id == id )
+            if ( game.P1Id == id )
                 setMessageP1(message);
-            if ( player.id == id && game.P2Id == id )
+            if ( game.P2Id == id )
                 setMessageP2(message);
-            console.log(message);   
             socket.emit("give_chips", room, player.id);
         }
         
@@ -272,18 +277,23 @@ export default function Play(){
     var bet_button = null;
     if ( roomNumber && player.id == game.currentPlayer && game.gameStatus != "showdown" ){
         var min_bet = 0;
-        if ( game.P1Bet == "CHECK" && game.P2Bet != "CHECK" )
-            min_bet = game.P2Bet;
-        if ( game.P1Bet != "CHECK" && game.P2Bet == "CHECK" )
-            min_bet = game.P1Bet;
-        if ( game.P1Bet == "CHECK" && game.P2Bet == "CHECK" )
+        var max_bet = 0;
+        if ( game.P1Bet == "CHECK" && game.P2Bet != "CHECK" ){
             min_bet = 2;
-        if ( game.P1Bet != "CHECK" && game.P2Bet != "CHECK" )
-            min_bet = Math.min(game.P1Bet, game.P2Bet)
+            max_bet = Math.min(+game.P1Chips, +game.P2Chips + +game.P2Bet);
+        }
+        if ( game.P1Bet != "CHECK" && game.P2Bet == "CHECK" ){
+            min_bet = 2;
+            max_bet = Math.min(+game.P1Chips+ +game.P1Bet, +game.P2Chips);
+        }
+        if ( game.P1Bet != "CHECK" && game.P2Bet != "CHECK" ){
+            min_bet = Math.max(+game.P1Bet + +1,+game.P2Bet + +1,BetAmount,2);
+            max_bet = Math.min(+game.P1Chips + +game.P1Bet, +game.P2Chips + +game.P2Bet);
+        }
         bet_slider = <div className="box">
-                         <input id="amount" className="range__amount" type="text" min={min_bet} max={player.chips} value={BetAmount} onChange={(e)=>setBetAmount(e.target.value)}></input>
+                         <input id="amount" className="range__amount" type="text" min={0} max={max_bet} value={BetAmount} onChange={(e)=>setBetAmount(e.target.value)}></input>
                          <div className="slider"> 
-                            <input type="range" className="slider_range" min={min_bet} max={player.chips} value={BetAmount} onChange={(e)=>setBetAmount(e.target.value)}></input> 
+                            <input type="range" className="slider_range" min={0} max={max_bet} value={BetAmount} onChange={(e)=>setBetAmount(e.target.value)}></input> 
                          </div> 
                     </div>;
         fold_button = <div className="action-buttons fold" onClick={FoldHand}>FOLD</div>;
@@ -293,7 +303,8 @@ export default function Play(){
         else{
             check_call_button = <div className="action-buttons call" onClick={CallHand}>CALL</div>;
         }
-        bet_button = <div className="action-buttons bet" onClick={BetHand}>BET</div>;
+        if ( BetAmount >= min_bet )
+            bet_button = <div className="action-buttons bet" onClick={BetHand}>BET</div>;
     }
     
     return(
