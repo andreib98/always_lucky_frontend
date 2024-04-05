@@ -160,6 +160,10 @@
     font-size: 1vw;
 }
 
+.fold:hover{
+    cursor: pointer;
+}
+
 .call {
     height: 8vh;
     width: 8vw;
@@ -176,6 +180,10 @@
     font-size: 1vw;
 }
 
+.call:hover{
+    cursor: pointer;
+}
+
 .bet {
     height: 8vh;
     width: 8vw;
@@ -190,6 +198,10 @@
     top: 82vh;
     right: 2vw;
     font-size: 1vw;
+}
+
+.bet:hover{
+    cursor: pointer;
 }
 
 .box{
@@ -224,4 +236,9 @@
 
 .message{
     color: yellow;
+}
+
+.oppCards{
+    height: 15vh;
+    width: 6vw;
 }

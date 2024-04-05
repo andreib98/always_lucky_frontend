@@ -63,7 +63,8 @@ export default function Play(){
     const [ messageP2, setMessageP2] = useState("");
     
     var verificat = 1;
-    var verificat2 = 1;
+    var verificatp1 = 1;
+    var verificatp2 = 1;
     
     useEffect( () => {
         if ( loggedIn != true){
@@ -100,8 +101,11 @@ export default function Play(){
     });
 
     const joinRoom = () => {
-        socket.emit("join_room", player.id,room,player.name,player.chips);
-        setRoomNumber(room);
+        if ( room != "" ){
+            console.log(room);
+            socket.emit("join_room", player.id,room,player.name,player.chips);
+            setRoomNumber(room);
+        }
         
     }
 
@@ -120,7 +124,8 @@ export default function Play(){
 
         socket.emit("leave_room", player.id,room,player.pozitia);
         
-        setRoomNumber(null);
+        setRoomNumber("");
+        setRoom("");
         
     }
 
@@ -128,7 +133,8 @@ export default function Play(){
 
         socket.emit("start_game", room,player.id);
         verificat = 0;
-        verificat2 = 0;
+        verificatp1 = 0;
+        verificatp2 = 0;
 
     }
 
@@ -197,9 +203,9 @@ export default function Play(){
 
     });
 
-    socket.on('opp_cards', (c1v, c1s, c2v, c2s) => {
+    socket.on('opp_cards', (c1v, c1s, c2v, c2s, pot) => {
 
-        setGame( c=> ({...c, gameStatus: "showdown"}));
+        setGame( c=> ({...c, gameStatus: "showdown", p1bet: 0, p2bet: 0, Pot: pot}));
         setOppCards([{key: 1, value: c1v, suit: c1s}, {key: 2, value: c2v, suit: c2s}]);
         
         if ( room && player.id && verificat == 0){
@@ -211,13 +217,20 @@ export default function Play(){
 
     socket.on('showdown', (message, id) => {
 
-        if ( verificat2 == 0 ){
-            verificat2 = 1;
+        if (  game.P1Id == id && verificatp1 == 0 ){
+            verificatp1 = 1;
             if ( game.P1Id == id )
                 setMessageP1(message);
+            if ( player.id == id )
+                socket.emit("give_chips", room, player.id);
+        }
+
+        if (  game.P2Id == id && verificatp2 == 0 ){
+            verificatp2 = 1;
             if ( game.P2Id == id )
                 setMessageP2(message);
-            socket.emit("give_chips", room, player.id);
+            if ( player.id == id )
+                socket.emit("give_chips", room, player.id);
         }
         
 
@@ -230,13 +243,27 @@ export default function Play(){
             ceva = cards;
         if ( player.pozitia == 2 )
             ceva = oppCards;
-        player_1_cards_slot = <div className="player1-cards card-slot">
-                {ceva.map( (card) => {
-                    return <Cards  key = {card.key}
-                            suit = {card.suit}
-                            value = {card.value} />;
-                })}
-            </div>;
+        player_1_cards_slot =   <div className="player1-cards card-slot">
+                                    {ceva.map( (card) => {
+                                        return <Cards  key = {card.key}
+                                                suit = {card.suit}
+                                                value = {card.value} />;
+                                    })}
+                                </div>;
+
+        if ( player.pozitia == 1 && cards.length == 0 ){
+            player_1_cards_slot = <div className="player1-cards card-slot"> 
+                                    <img className="oppCards" src="../images/cardback.png"></img>
+                                    <img className="oppCards" src="../images/cardback.png"></img>
+                                </div>;
+        }
+
+        if ( player.pozitia == 2 && oppCards.length == 0 ){
+            player_1_cards_slot = <div className="player1-cards card-slot"> 
+                                    <img className="oppCards" src="../images/cardback.png"></img>
+                                    <img className="oppCards" src="../images/cardback.png"></img>
+                                </div>;
+        }
     }
 
     var player_2_cards_slot = null;                                                                                 // PLAYER 2 CARDS
@@ -253,6 +280,19 @@ export default function Play(){
                                                        value = {card.value} />;
                                     })}
                                 </div>;
+
+    if ( player.pozitia == 2 && cards.length == 0 ){
+        player_2_cards_slot = <div className="player2-cards card-slot"> 
+                                <img className="oppCards" src="../images/cardback.png"></img>
+                                <img className="oppCards" src="../images/cardback.png"></img>
+                            </div>;
+    }
+    if ( player.pozitia == 1 && oppCards.length == 0 ){
+        player_2_cards_slot = <div className="player2-cards card-slot"> 
+                                <img className="oppCards" src="../images/cardback.png"></img>
+                                <img className="oppCards" src="../images/cardback.png"></img>
+                            </div>;
+    }
     }
 
     var com_cards = <div className="community-cards"></div>;                                                        // COMMUNITY CARDS
@@ -307,7 +347,7 @@ export default function Play(){
         else{
             check_call_button = <div className="action-buttons call" onClick={CallHand}>CALL</div>;
         }
-        if ( BetAmount >= min_bet )
+        if ( BetAmount >= min_bet && BetAmount <= max_bet )
             bet_button = <div className="action-buttons bet" onClick={BetHand}>BET</div>;
     }
     
