@@ -205,7 +205,7 @@ export default function Play(){
 
     socket.on('opp_cards', (c1v, c1s, c2v, c2s, pot) => {
 
-        setGame( c=> ({...c, gameStatus: "showdown", p1bet: 0, p2bet: 0, Pot: pot}));
+        setGame( c=> ({...c, gameStatus: "showdown", P1Bet: 0, P2bet: 0, Pot: pot}));
         setOppCards([{key: 1, value: c1v, suit: c1s}, {key: 2, value: c2v, suit: c2s}]);
         
         if ( room && player.id && verificat == 0){
